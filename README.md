@@ -35,6 +35,3 @@ A TypeScript implementation of the Mars Rover problem.
 
 This project simulates the movement of a Mars Rover on a grid, processing commands to move and rotate the rover. It is designed for educational and interview purposes, demonstrating TypeScript best practices and test-driven development with Jest.
 
-## License
-
-MIT License
