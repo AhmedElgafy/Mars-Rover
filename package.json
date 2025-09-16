@@ -2,11 +2,11 @@
   "name": "Mars Rover",
   "version": "1.0.0",
   "description": "A basic TypeScript project setup",
-  "main": "dist/app.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/app.js",
-    "dev": "ts-node src/app.ts",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
     "test": "jest"
   },
   "keywords": [],
