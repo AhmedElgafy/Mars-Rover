@@ -55,7 +55,12 @@ const mover = (
   }
 };
 
-const solution = (x: number, y: number, dir: Directions, commands: string) => {
+export const solutionP1 = (
+  x: number,
+  y: number,
+  dir: Directions,
+  commands: string
+) => {
   const commandsArr = commands.split("") as MOVES[];
   let curDirIndex = getCurDirIndex(dir);
   const res: ResI = { x: x, y: y, dir: dir };
@@ -76,7 +81,6 @@ const solution = (x: number, y: number, dir: Directions, commands: string) => {
   });
   return `(${res.x}, ${res.y}) ${res.dir}`;
 };
-// console.log(solution(4, 2, "EAST", "FLFFFRFLB"));
 const obstaclesZone = (coordinates: [number, number][]) => {
   let maxX = coordinates[0][0];
   let minX = coordinates[0][0];
@@ -97,12 +101,39 @@ const obstaclesZone = (coordinates: [number, number][]) => {
     }
   });
   return function (x: number, y: number): boolean {
+    console.log(`x:${x}, y:${y}`);
     return minX <= x && x <= maxX && minY <= y && y <= maxY;
   };
 };
-const isNotSafe = obstaclesZone([
-  [1, 4],
-  [3, 5],
-  [7, 4],
-]);
-console.log(isNotSafe(3, 5));
+
+export const solutionP2 = (
+  x: number,
+  y: number,
+  dir: Directions,
+  commands: string,
+  coordinates: [number, number][]
+) => {
+  const commandsArr = commands.split("") as MOVES[];
+  const isNotSafe = obstaclesZone(coordinates);
+  let curDirIndex = getCurDirIndex(dir);
+  const res: ResI = { x: x, y: y, dir: dir };
+  for (let i = 0; i < commandsArr.length; i++) {
+    const command = commands[i];
+    if (command == "L" || command == "R") {
+      let newDir = getNewDir(curDirIndex, command);
+      res.dir = newDir.dir;
+      curDirIndex = newDir.index;
+    }
+    if (command == "F" || command == "B") {
+      const newValues = mover(res.x, res.y, command, res.dir);
+      if (newValues) {
+        if (isNotSafe(newValues[0], newValues[1])) {
+          return `(${res.x}, ${res.y}) ${res.dir} STOPPED`;
+        }
+        res.x = newValues[0];
+        res.y = newValues[1];
+      }
+    }
+  }
+  return `(${res.x}, ${res.y}) ${res.dir}`;
+};
